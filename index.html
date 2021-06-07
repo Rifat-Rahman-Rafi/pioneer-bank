@@ -52,7 +52,8 @@
                 
             </div>
         </div>
-        document.getElementById("currentDeposit");
+
+        
 
         <div class="row">
             <div class="col-md-6">
@@ -95,17 +96,41 @@
 
 
 
-
-
-
-
       const depositBtn = document.getElementById("addDeposit");
       depositBtn.addEventListener("click",function(){
         const depositAmount=document.getElementById("depositAmount").value;
+   
+        var num=0,dot=0,flag=0;
+
+        for(var i=0;i<depositAmount.length;i++)
+        {
+            if(depositAmount[i]>='0' && depositAmount[i]<='9')
+            {
+                   num++;
+            }
+            else if(depositAmount[i]=='.')
+            {
+                dot++;
+            }
+            else{
+
+                flag=1;
+                break;
+            }
+        }
+      
+
+        if(flag==0 && num!=0)
+        {
+
         const depositNumber=parseFloat(depositAmount);
 
         const currentDeposit= document.getElementById("currentDeposit").innerText;
+
        const currentDepositNumber = parseFloat(currentDeposit);
+
+      // console.log(currentDepositNumber);
+
         const totalDeposit=depositNumber + currentDepositNumber;
         document.getElementById("currentDeposit").innerText = totalDeposit; 
 
@@ -115,6 +140,11 @@
         document.getElementById("currentBalance").innerText=totalBalance;*/
 
         updateSpanText("currentBalance",depositNumber);
+        }
+        else
+        {
+            alert("Please Enter Valid Input");
+        }
 
         document.getElementById("depositAmount").value="";
 
@@ -128,7 +158,18 @@
 
         const currentBalance=document.getElementById(id).innerText;
         const currentBalanceNumber=parseFloat(currentBalance);
-        const totalBalance=depositNumber+currentBalanceNumber;
+
+    
+        var totalBalance=depositNumber+currentBalanceNumber;
+        
+       
+        /*if(totalBalance<0)
+        {
+            
+           alert("You Have Not Enough Money");
+
+        }
+        else*/
         document.getElementById(id).innerText=totalBalance;
 
       }
@@ -138,17 +179,68 @@
       const withdrawBtn=document.getElementById("addWithdraw");
       withdrawBtn.addEventListener("click",function(){
           const withdrawAmount=document.getElementById("withdrawAmount").value;
-          const withdrawNumber=parseFloat(withdrawAmount);
 
-        
+   
+           var wnum=0,wdot=0,wflag=0;
+
+          for(var i=0;i<withdrawAmount.length;i++)
+          {
+            if(withdrawAmount[i]>='0' && withdrawAmount[i]<='9')
+            {
+                   wnum++;
+            }
+            else if(withdrawAmount[i]=='.')
+            {
+                wdot++;
+            }
+            else{
+
+                wflag=1;
+                break;
+            }
+
+          }
+
+
+          if(wflag==0 && wnum!=0)
+          {
+
+          const withdrawNumber=parseFloat(withdrawAmount);
 
           const currentWithdraw= document.getElementById("currentWithdraw").innerText;
        const currentWithdrawNumber = parseFloat(currentWithdraw);
         const totalWithdraw=withdrawNumber + currentWithdrawNumber;
-        document.getElementById("currentWithdraw").innerText = totalWithdraw; 
+       
+
+        
+          
 
 
-        updateSpanText("currentBalance",-1*withdrawNumber);
+        const currentBalance=document.getElementById("currentBalance").innerText;
+        const currentBalanceNumber=parseFloat(currentBalance);
+
+        if(withdrawNumber>currentBalanceNumber)
+        {
+            alert("You Have Not Enough Money");
+        }
+        else
+        {
+            document.getElementById("currentWithdraw").innerText = totalWithdraw; 
+        const totalBalance=-withdrawNumber+currentBalanceNumber;
+        document.getElementById("currentBalance").innerText=totalBalance;
+        }
+          
+        //updateSpanText("currentBalance",-1*withdrawNumber);
+
+
+
+
+          }
+          else{
+
+            alert('Please Enter Valid Input');
+            
+          }
 
 
         document.getElementById("withdrawAmount").value="";
